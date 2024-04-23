@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>User Management</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    th, td {
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+    }
+    th {
+        background-color: #f2f2f2;
+    }
+    .actions {
+        display: flex;
+        justify-content: center;
+    }
+    .btn {
+        padding: 6px 12px;
+        margin: 0 4px;
+        border: none;
+        background-color: #007bff;
+        color: #fff;
+        cursor: pointer;
+        border-radius: 4px;
+        text-decoration: none;
+    }
+    .btn:hover {
+        background-color: #0056b3;
+    }
+    .search-box {
+        margin-bottom: 20px;
+        text-align: center;
+    }
+    .search-box input[type="text"] {
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+    .form-container {
+        display: none;
+        justify-content: center;
+    }
+    .form-container form {
+        width: 50%;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .form-container input[type="text"],
+    .form-container input[type="email"] {
+        width: calc(100% - 16px);
+        padding: 8px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+    .form-container input[type="submit"] {
+        width: 100%;
+        padding: 10px;
+        border: none;
+        background-color: #007bff;
+        color: #fff;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    .form-container input[type="submit"]:hover {
+        background-color: #0056b3;
+    }
+</style>
+</head>
+<body>
+
+<div class="search-box">
+    <input type="text" placeholder="Search users">
+</div>
+
+<table >
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody id="table">
+        <!-- <tr>
+            <td>1</td>
+            <td>John Doe</td>
+            <td>john@example.com</td>
+            <td class="actions">
+                <button class="btn edit-btn">Edit</button>
+                <button class="btn delete-btn">Delete</button>
+            </td>
+        </tr> -->
+        <!-- Additional rows for other users -->
+    </tbody>
+</table>
+
+<div class="actions">
+    <button class="btn add-btn">Add User</button>
+</div>
+
+<div class="form-container" id="userForm">
+    <form>
+        <label id="lblText" for=""></label>
+        <input type="text" placeholder="Name" id="nameUser">
+        <input type="email" placeholder="Email" id="emailUser">
+        <input onclick="addOrEdit()" type="submit" value="Submit">
+    </form>
+</div>
+
+
+<script src="main.js"></script>
+</body>
+</html>
