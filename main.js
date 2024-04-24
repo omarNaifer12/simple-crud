@@ -43,54 +43,129 @@ c0.appendChild(c00)
 c1.appendChild(c11)
 c2.appendChild(c22)
 }
-
-function addUser(id,name,email){
+function printUser(id,name,email){
 var tbody=` <tr>
 <td>${id.toString()}</td>
 <td>${name}</td>
 <td>${email}</td>
 <td class="actions">
     <button class="btn edit-btn">Edit</button>
-    <button class="btn delete-btn">Delete</button>
+    <button class="btn delete-btn" >Delete</button>
 </td>
 </tr>`
 table.insertAdjacentHTML('beforeend',tbody);
 }
+var ID=0;
+function updateUser(id,name,email){
+    var users=getUsersFromLocalStorage();
+    users.forEach(function(element){
+        if(element.id===id){
+            element.name=name;
+            element.email=email;
+            setUsersToLocalStorage(users);
+            return true;
+        }
+    })
+return false;
+}
+function addUser(name,email){
+    var users=getUsersFromLocalStorage();
+   let Id=users.length===0?0:users[users.length-1].id+1;
+    let user={id:Id,name:name,email:email};
+    users.push(user);
+    setUsersToLocalStorage(users);
+}
+function getUsersFromLocalStorage(){
+    var users;
+    if(localStorage.length!==0)
+     users=JSON.parse(localStorage.getItem("users"));
+    else
+    users=[];
+     return users;
+}
+function setUsersToLocalStorage(users){
+   localStorage.setItem("users",JSON.stringify(users));
+}
+function printAllUsers(){
+    var users=getUsersFromLocalStorage();
+    users.forEach(function(user){
+        printUser(user.id,user.name,user.email);
+    })
+    clickBtnEdit();
+    clickBtnDelete();
+}
 
-
-var events={};
+function addOrEdit(){
+    var name=document.getElementById("nameUser").value;
+    var email=document.getElementById("emailUser").value;
+    if(label.innerText==="addUser"){
+        addUser(name,email); 
+       table.innerHTML="";
+        printAllUsers();
+     
+    }
+    else{
+        updateUser(ID,name,email)
+       table.innerHTML="";
+        printAllUsers();
+      
+    }
+    }
+    
+function btnEdit(event){
+console.log(event);
+}
+function btnDelete(event){
+    console.log(event);
+}
+function clickBtnEdit(){
 var tableElements=document.querySelectorAll("table td");
 tableElements.forEach(function(element){
     element.addEventListener("click",function(event){
       if(event.target.className.indexOf("edit-btn")!==-1)
 {
-    events=event.target.parentNode.parentNode; 
+   ID=parseInt(event.target.parentNode.parentNode.cells[0].innerText); 
             alert("success");
+            console.log(this);
             label.innerText="editUser";
             formContainer.style.display = "block";
 }
-    else
-    {   
+else
+    {
         alert("error");
-    } 
-    console.log(events);  
-    console.log(event) 
-    console.log(event.target.className)
+    }
 })
 })
-function updateUser(name,
-    email){
-   events.cells[1].innerText=name;
-    events.cells[2].innerText=email;
 }
-function addOrEdit(){
-    var name=document.getElementById("nameUser").value;
-var email=document.getElementById("emailUser").value;
-if(label.innerText==="addUser"){
-    addUser(2,name,email); 
-       
+function clickBtnDelete(){
+    var tableElements=document.querySelectorAll("table td");
+    tableElements.forEach(function(element){
+        element.addEventListener("click",function(event){
+          if(event.target.className.indexOf("delete-btn")!==-1)
+    {
+       ID=parseInt(event.target.parentNode.parentNode.cells[0].innerText); 
+              deleteUser(ID)
+                table.removeChild(event.target.parentNode.parentNode);
+                
+              
+    }
+    else
+        {
+            alert("error");
+        }
+    })
+    })
+    }
+function deleteUser(id){
+var users=getUsersFromLocalStorage();
+for (let i = 0; i < users.length; i++) {
+    if(users[i].id===id){
+        users.splice(i,1);
+        setUsersToLocalStorage(users);
+        return true;
+    }
+    
 }
-else{
-    updateUser(name,email)
+return false;
 }
-}
+printAllUsers();
