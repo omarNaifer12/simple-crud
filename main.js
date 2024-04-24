@@ -1,28 +1,27 @@
-    // Get the modal
+ 
     var label=document.getElementById("lblText");
     var formContainer = document.getElementById("userForm");
 
-    // Get the button that opens the modal
+    
     var addBtn = document.querySelector(".add-btn");
     var editBtn = document.querySelectorAll(".edit-btn");
 
-    // Get the <span> element that closes the modal
+ 
    
     var addForm = formContainer.querySelector("form");
 
-    // When the user clicks the button, open the modal
+    
     addBtn.onclick = function() {
 label.innerText="addUser";
         formContainer.style.display = "block";
     }
 
-    // When the user clicks on <span> (x), close the modal
     addForm.onsubmit = function(e) {
         e.preventDefault();
         formContainer.style.display = "none";
     }
 
-    // When the user clicks outside of the modal, close it
+ 
     window.onclick = function(event) {
         if (event.target == formContainer) {
             formContainer.style.display = "none";
@@ -30,19 +29,7 @@ label.innerText="addUser";
     }
 
 var table=document.getElementById("table");
-function addRow(id,name,email){
- 
-let row=table.insertRow(-1);
-let c0=row.insertCell(0);
-let c1=row.insertCell(1);
-let c2=row.insertCell(2);
-let c00= document.createTextNode(id.toString);
-let c11= document.createTextNode(name);
-let c22= document.createTextNode(email);
-c0.appendChild(c00)
-c1.appendChild(c11)
-c2.appendChild(c22)
-}
+
 function printUser(id,name,email){
 var tbody=` <tr>
 <td>${id.toString()}</td>
@@ -111,13 +98,6 @@ function addOrEdit(){
       
     }
     }
-    
-function btnEdit(event){
-console.log(event);
-}
-function btnDelete(event){
-    console.log(event);
-}
 function clickBtnEdit(){
 var tableElements=document.querySelectorAll("table td");
 tableElements.forEach(function(element){
@@ -126,14 +106,10 @@ tableElements.forEach(function(element){
 {
    ID=parseInt(event.target.parentNode.parentNode.cells[0].innerText); 
             alert("success");
-            console.log(this);
-            label.innerText="editUser";
+        
             formContainer.style.display = "block";
 }
-else
-    {
-        alert("error");
-    }
+
 })
 })
 }
@@ -149,13 +125,9 @@ function clickBtnDelete(){
                 
               
     }
-    else
-        {
-            alert("error");
-        }
     })
     })
-    }
+}
 function deleteUser(id){
 var users=getUsersFromLocalStorage();
 for (let i = 0; i < users.length; i++) {
@@ -168,4 +140,24 @@ for (let i = 0; i < users.length; i++) {
 }
 return false;
 }
+
 printAllUsers();
+function returnAllUsersFilterByName(name){
+    var users=getUsersFromLocalStorage();
+    return users.filter(function(user){
+        return user.name.indexOf(name)!==-1;
+    })
+}
+function printFilterUsers(users){
+    users.forEach(function(user){
+        console.log(user);
+        printUser(user.id,user.name,user.email);
+    })
+}
+function filterByName(){
+    var searchName=document.getElementById("search").value;
+    var users=returnAllUsersFilterByName(searchName);
+    console.log(users);
+    table.innerHTML="";
+    printFilterUsers(users);
+}
